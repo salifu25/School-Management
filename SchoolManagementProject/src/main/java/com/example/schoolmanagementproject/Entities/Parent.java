@@ -29,8 +29,6 @@ public class Parent {
     @Column(nullable = false)
     private String contactInformation;
 
-    @OneToMany
-    @JoinTable(name = "parent_student", joinColumns = @JoinColumn(name = "parent_id"),
-    inverseJoinColumns = @JoinColumn(name = "student_id"))
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Student> students;
 }

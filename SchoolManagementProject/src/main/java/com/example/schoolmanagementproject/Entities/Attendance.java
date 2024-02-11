@@ -22,11 +22,9 @@ public class Attendance {
     private LocalDateTime dateTime;
 
 
-    @NotNull(message = "Date and time is required")
-    @OneToOne
-    @JoinTable(name = "student_attendance", joinColumns = @JoinColumn(name = "attendance_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private Student students;
+    @ManyToOne
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
 
     @NotNull(message = "Attendance status is required")

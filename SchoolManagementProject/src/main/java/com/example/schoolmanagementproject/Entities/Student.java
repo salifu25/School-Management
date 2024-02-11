@@ -30,6 +30,12 @@ public class Student {
     @JoinColumn(name = "class_id", nullable = false)
     private StudentClass studentClass;
 
+  @ManyToOne
+  @JoinColumn(name = "parent_id", nullable = false)
+  private Parent parent;
+
+  @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+  private List<Attendance> attendances;
 
 
  // @ManyToOne

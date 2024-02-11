@@ -1,5 +1,6 @@
 package com.example.schoolmanagementproject.Service;
 
+import com.example.schoolmanagementproject.DTO.AttendanceRequestDto;
 import com.example.schoolmanagementproject.Entities.Attendance;
 import com.example.schoolmanagementproject.Entities.Student;
 import com.example.schoolmanagementproject.Repository.AttendanceRepository;
@@ -22,17 +23,17 @@ public class AttendanceService {
 
 
 
-    public Attendance createAttendance(Attendance attendance, Long id) {
+    public Attendance createAttendance(AttendanceRequestDto attendance) {
 
         try {
-            Optional<Student> student = studentService.getStudentById(id);
+            Optional<Student> student = studentService.getStudentById(attendance.getStudent_id());
             if (student.isEmpty()){
                 return  null;
             }
             Attendance newAttendance = new Attendance();
             newAttendance.setDateTime(attendance.getDateTime());
             newAttendance.setStatus(attendance.getStatus());
-            newAttendance.setStudents(student.get());
+            newAttendance.setStudent(student.get());
             attendanceRepository.save(newAttendance);
             log.info("attendance created successfully");
             return newAttendance;
@@ -54,8 +55,10 @@ public class AttendanceService {
     }
 
     public void updateAttendance(Long id, Attendance updatedAttendance) {
-        if (attendanceRepository.existsById(id)) {
-            Attendance existingAttendance = new Attendance();
+        Optional<Attendance> existingAttendanceOptional = attendanceRepository.findById(id);
+
+        if (existingAttendanceOptional.isPresent()) {
+            Attendance existingAttendance = existingAttendanceOptional.get();
             existingAttendance.setDateTime(updatedAttendance.getDateTime());
             existingAttendance.setStatus(updatedAttendance.getStatus());
             attendanceRepository.save(existingAttendance);

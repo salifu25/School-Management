@@ -1,5 +1,6 @@
 package com.example.schoolmanagementproject.Controller;
 
+import com.example.schoolmanagementproject.DTO.StudentRequestDto;
 import com.example.schoolmanagementproject.Entities.Student;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class StudentController {
                 .orElse(ResponseEntity.notFound().build());
     }
     @PostMapping("createStudent")
-    public ResponseEntity<?> createStudent(@Valid @RequestBody Student student) {
-        Student createdStudent = studentService.CreateStudent(student);
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentRequestDto student) {
+        Student createdStudent = studentService.createStudent(student);
         return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
     }
     @PutMapping("updateStudent/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable Long id, @Valid @RequestBody Student student) {
+    public ResponseEntity<?> updateStudent(@PathVariable Long id, @Valid @RequestBody StudentRequestDto student) {
         studentService.updateStudent(id, student);
         return ResponseEntity.ok(student);
     }

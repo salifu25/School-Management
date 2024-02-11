@@ -1,5 +1,6 @@
 package com.example.schoolmanagementproject.Controller;
 
+import com.example.schoolmanagementproject.DTO.AttendanceRequestDto;
 import com.example.schoolmanagementproject.Entities.Attendance;
 import com.example.schoolmanagementproject.Service.AttendanceService;
 import jakarta.validation.Valid;
@@ -18,13 +19,13 @@ public class AttendanceController {
     @Autowired
     private AttendanceService attendanceService;
 
-    @PostMapping("createAttendance")
-    public ResponseEntity<?> createAttendance(@Valid @RequestBody Attendance attendance, @PathVariable long studentId) {
-        Attendance createdAttendance = attendanceService.createAttendance(attendance,studentId);
+    @PostMapping("/createAttendance")
+    public ResponseEntity<?> createAttendance(@Valid @RequestBody AttendanceRequestDto attendance) {
+        Attendance createdAttendance = attendanceService.createAttendance(attendance);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAttendance);
     }
 
-    @GetMapping
+    @GetMapping("/listAttendance")
     public ResponseEntity<List<Attendance>> getAllAttendances() {
         List<Attendance> attendances = attendanceService.getAllAttendances();
         return ResponseEntity.ok(attendances);
